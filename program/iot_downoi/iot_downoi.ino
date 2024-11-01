@@ -71,6 +71,10 @@ void loop()
   int jamSekarang = now.Hour();
   int menitSekarang = now.Minute();
   int detikSekarang = now.Second();
+  Serial.print("waktu saat ini : "); Serial.print(" ");
+  Serial.print(jamSekarang); Serial.print(":");
+  Serial.print(menitSekarang); Serial.print(":");
+  Serial.println(detikSekarang);
 
   int humidity = getHum();
   runMistMaker(humidity);
@@ -91,6 +95,7 @@ void loop()
   int waktuHidupLampu = waktuBerjalan - startLampuHidup;
   if(waktuBerjalan - startLampuHidup == lamaHidupDetik){
     digitalWrite(lampu, LOW);
+    digitalWrite(solenoid, LOW); // untuk memastikan solenoid mati
     Serial.println("lampu mati");
   }else{
     runSolenoid(CO2);
@@ -103,6 +108,8 @@ void loop()
     Serial.println("belum waktunya post");
   }
   
+  Serial.println();
+  Serial.println("=====================================");
   delay(2000);
 }
 
@@ -129,7 +136,6 @@ void postData(int co2, int humidity, float lux){
   Serial.println(response);
   delay(1000);
 }
-
 
 void connectWifi(){
   WiFi.begin(ssid, pass);
