@@ -38,6 +38,7 @@ int getHum();
 float getLux();
 double hitungLamaHidupLampu(float lux, int waktuPencahayaan);
 
+float lux;
 int startLampuHidup;
 double lamaHidup;
 int lamaHidupDetik;
@@ -51,8 +52,9 @@ void setup()
     mySerial.begin(BAUDRATE);                               
     myMHZ19.begin(mySerial);                                // *Serial(Stream) reference must be passed to library begin().
     myMHZ19.autoCalibration();                              // Turn auto calibration ON (OFF autoCalibration(false))
-    
+    delay(1000);
     dht.begin();
+    delay(1000);
     Rtc.Begin();
     RtcDateTime compiled = RtcDateTime("Nov 11 2024", "06:58:00");
     Rtc.SetDateTime(compiled);
@@ -83,15 +85,15 @@ void loop()
   runMistMaker(humidity);
 
   int CO2 = getCO2();
-
-  float lux = getLux();
   
   int waktuBerjalan = millis()/1000;
   if(jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10){ // <= 10 detik agar tidak masuk ke badan if ini selama semenit 
+    digitalWrite(lampu, HIGH);
+    delay(1000);
+    lux = getLux();
     startLampuHidup = millis()/1000;
     lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan);
     lamaHidupDetik = lamaHidup * 3600;
-    digitalWrite(lampu, HIGH);
     Serial.println("lampu Hidup");
   }
 
