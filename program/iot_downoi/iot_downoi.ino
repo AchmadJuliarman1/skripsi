@@ -39,9 +39,9 @@ float getLux();
 double hitungLamaHidupLampu(float lux, int waktuPencahayaan);
 
 float lux;
-int startLampuHidup;
 double lamaHidup;
 int lamaHidupDetik;
+int previousMillis = 0;
 void setup()
 {
     Serial.begin(9600);                                     
@@ -66,16 +66,18 @@ void setup()
     digitalWrite(mistMaker, LOW);
     digitalWrite(solenoid, LOW);
     digitalWrite(lampu, LOW);
-    startLampuHidup = millis()/1000;
 }
 
 void loop()
 {
   int waktuPencahayaan = 8;
   RtcDateTime now = Rtc.GetDateTime();
-  int jamSekarang = now.Hour();
-  int menitSekarang = now.Minute();
-  int detikSekarang = now.Second();
+  // int jamSekarang = now.Hour();
+  // int menitSekarang = now.Minute();
+  // int detikSekarang = now.Second();
+  int jamSekarang = 7;
+  int menitSekarang = 0;
+  int detikSekarang = 0;
   Serial.print("waktu saat ini : "); Serial.print(" ");
   Serial.print(jamSekarang); Serial.print(":");
   Serial.print(menitSekarang); Serial.print(":");
@@ -86,22 +88,21 @@ void loop()
 
   int CO2 = getCO2();
   
-  int waktuBerjalan = millis()/1000;
+  int waktuBerjalan = millis()/1000 - previousMillis;
   if(jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10){ // <= 10 detik agar tidak masuk ke badan if ini selama semenit 
     digitalWrite(lampu, HIGH);
     delay(1000);
     lux = getLux();
-    startLampuHidup = millis()/1000;
     lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan);
     lamaHidupDetik = lamaHidup * 3600;
     Serial.println("lampu Hidup");
   }
 
-  int waktuHidupLampu = waktuBerjalan - startLampuHidup;
-  if(waktuBerjalan - startLampuHidup == lamaHidupDetik){
+  if(waktuBerjalan >= lamaHidupDetik){
     digitalWrite(lampu, LOW);
     digitalWrite(solenoid, LOW); // untuk memastikan solenoid mati
     Serial.println("lampu mati");
+    previousMillis = millis() / 1000;
   }else{
     runSolenoid(CO2);
   }
@@ -113,6 +114,14 @@ void loop()
     Serial.println("belum waktunya post");
   }
   
+  Serial.print("waktu berjalan : ");
+  Serial.println(waktuBerjalan);
+  Serial.print("previuous millis : ");
+  Serial.println(previousMillis);
+  Serial.print("lama jam : ");
+  Serial.println(lamaHidup);
+  Serial.print("lama detik : ");
+  Serial.println(lamaHidupDetik);
   Serial.println();
   Serial.println("=====================================");
   delay(2000);
