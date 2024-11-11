@@ -206,7 +206,7 @@ void runSolenoid(int CO2){
 }
 
 void runMistMaker(int humidity){
-  if(humidity <= 90){
+  if(humidity <= 80){
     digitalWrite(mistMaker, HIGH);
     Serial.println("mist maker hidup");
   }else{
