@@ -12,9 +12,9 @@
 #define BAUDRATE 9600                                      // Device to MH-Z19 Serial baudrate (should not be changed)
 #define DHTTYPE DHT22
 #define DHTPIN 4 
-#define mistMaker 5
-#define solenoid 17
-#define lampu 18
+#define solenoid 12
+#define mistMaker 13
+#define lampu 5
 
 // inisialisasi object
 MHZ19 myMHZ19;                                             // Constructor for library
@@ -27,7 +27,6 @@ RtcDS3231<TwoWire> Rtc(Wire);
 String apiURL = "https://skripsiarman.my.id/IOTEmersedMonitoring/";
 String ssid = "ARFAD";
 String pass = "polygon.";
-
 
 void connectWifi();
 void runSolenoid(int CO2);
@@ -55,18 +54,22 @@ void setup()
     
     dht.begin();
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
+    RtcDateTime compiled = RtcDateTime("Nov 11 2024", "06:58:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
     pinMode(solenoid, OUTPUT);
+    pinMode(lampu, OUTPUT);
+
+    digitalWrite(mistMaker, LOW);
+    digitalWrite(solenoid, LOW);
+    digitalWrite(lampu, LOW);
     startLampuHidup = millis()/1000;
 }
 
 void loop()
 {
   int waktuPencahayaan = 8;
-
   RtcDateTime now = Rtc.GetDateTime();
   int jamSekarang = now.Hour();
   int menitSekarang = now.Minute();
@@ -102,7 +105,7 @@ void loop()
   }
 
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
-  if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 10){
+  if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 5){
     postData(CO2, humidity, lux);
   }else{
     Serial.println("belum waktunya post");
@@ -134,6 +137,7 @@ void postData(int co2, int humidity, float lux){
 
   response = http.getString();
   Serial.println(response);
+  http.end();
   delay(1000);
 }
 
@@ -159,6 +163,7 @@ int getCO2(){
 
   Serial.print("CO2 (ppm): ");
   Serial.println(CO2);
+  delay(1000);
   return CO2;
 }
 
@@ -171,6 +176,7 @@ int getHum(){
   Serial.print(F("Humidity: "));
   Serial.print(h);
   Serial.println(" %");
+  delay(1000);
   return h;
 }
 
@@ -181,14 +187,16 @@ float getLux(){
     Serial.print("Light: ");
     Serial.print(lux);
     Serial.println(" lx");
+    delay(1000);
     return lux; 
   }else{
+    delay(1000);
     return lux;
   }
 }
 
 void runSolenoid(int CO2){
-  if(CO2 <= 1000){
+  if(CO2 <= 1500){
     digitalWrite(solenoid, HIGH);
     Serial.println("co2 hidup");
   }else{
@@ -198,7 +206,7 @@ void runSolenoid(int CO2){
 }
 
 void runMistMaker(int humidity){
-  if(humidity <= 80){
+  if(humidity <= 90){
     digitalWrite(mistMaker, HIGH);
     Serial.println("mist maker hidup");
   }else{
