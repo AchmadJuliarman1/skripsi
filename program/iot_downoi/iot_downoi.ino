@@ -198,7 +198,7 @@ float getLux(){
 }
 
 void runSolenoid(int CO2){
-  if(CO2 <= 1500){
+  if(CO2 <= 1000){
     digitalWrite(solenoid, HIGH);
     Serial.println("co2 hidup");
   }else{
