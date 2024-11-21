@@ -1,25 +1,25 @@
 #include <Arduino.h>
 #include <WiFi.h>
-// SENSOR CO2 & humidity
+// SENSOR CO2 & humidity & lux
 #include "MHZ19.h"
-#include "DHT.h"
 #include <BH1750.h>
+#include "ClosedCube_SHT31D.h"
+
 #include <Wire.h>
 #include <RtcDS3231.h>
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 
 #define BAUDRATE 9600                                      // Device to MH-Z19 Serial baudrate (should not be changed)
-#define DHTTYPE DHT22
-#define DHTPIN 4 
 #define solenoid 12
 #define mistMaker 13
 #define lampu 5
 
 // inisialisasi object
+ClosedCube_SHT31D sht3xd;
 MHZ19 myMHZ19;                                             // Constructor for library
 HardwareSerial mySerial(0);                                // On ESP32 we do not require the SoftwareSerial library, since we have 2 USARTS available
-DHT dht(DHTPIN, DHTTYPE);
+
 BH1750 lightMeter(0x23);
 RtcDS3231<TwoWire> Rtc(Wire);
 
@@ -53,7 +53,7 @@ void setup()
     myMHZ19.begin(mySerial);                                // *Serial(Stream) reference must be passed to library begin().
     myMHZ19.autoCalibration();                              // Turn auto calibration ON (OFF autoCalibration(false))
     delay(1000);
-    dht.begin();
+	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
     RtcDateTime compiled = RtcDateTime("Nov 11 2024", "06:58:00");
@@ -83,7 +83,7 @@ void loop()
   Serial.print(menitSekarang); Serial.print(":");
   Serial.println(detikSekarang);
 
-  int humidity = getHum();
+  float humidity = getHum(sht3xd.readTempAndHumidity(SHT3XD_REPEATABILITY_HIGH, SHT3XD_MODE_POLLING, 50));
   runMistMaker(humidity);
 
   int CO2 = getCO2();
@@ -178,17 +178,11 @@ int getCO2(){
   return CO2;
 }
 
-int getHum(){
-  float h = dht.readHumidity();
-  if (isnan(h)) {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return 0;
-  }
-  Serial.print(F("Humidity: "));
-  Serial.print(h);
-  Serial.println(" %");
+float getHum(SHT31D result) {
+  Serial.print("Humidity : ");
+  Serial.println(result.rh);
+	return result.rh;
   delay(1000);
-  return h;
 }
 
 float getLux(){
