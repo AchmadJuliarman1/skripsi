@@ -72,12 +72,9 @@ void loop()
 {
   int waktuPencahayaan = 8;
   RtcDateTime now = Rtc.GetDateTime();
-  // int jamSekarang = now.Hour();
-  // int menitSekarang = now.Minute();
-  // int detikSekarang = now.Second();
-  int jamSekarang = 7;
-  int menitSekarang = 0;
-  int detikSekarang = 0;
+  int jamSekarang = now.Hour();
+  int menitSekarang = now.Minute();
+  int detikSekarang = now.Second();
   Serial.print("waktu saat ini : "); Serial.print(" ");
   Serial.print(jamSekarang); Serial.print(":");
   Serial.print(menitSekarang); Serial.print(":");
@@ -138,6 +135,33 @@ void postData(int co2, int humidity, float lux){
   doc["co2"] = co2;
   doc["humidity"] = humidity;
   doc["lux"] = lux;
+  doc["waktu"] = String(now.Year()) +"-"+ String(now.Month()) +"-"+ 
+                 String(now.Day()) +" "+ String(now.Hour()) +":"+ 
+                 String(now.Minute()) +":"+ String(now.Second());
+
+  http.begin(url);
+  serializeJson(doc, params);
+  http.POST(params);
+
+  response = http.getString();
+  Serial.println(response);
+  http.end();
+  delay(1000);
+}
+
+void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuBerjalan){
+  String url = apiURL+"api/realtime";
+  HTTPClient http;
+  JsonDocument doc;
+  String response;
+  String params;
+  
+  RtcDateTime now = Rtc.GetDateTime();
+  doc["co2"] = co2;
+  doc["humidity"] = humidity;
+  doc["lux"] = lux;
+  doc["lama_hidup"] = lamaHidup;
+  doc["waktu_berjalan"] = waktuBerjalan;
   doc["waktu"] = String(now.Year()) +"-"+ String(now.Month()) +"-"+ 
                  String(now.Day()) +" "+ String(now.Hour()) +":"+ 
                  String(now.Minute()) +":"+ String(now.Second());
