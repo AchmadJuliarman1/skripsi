@@ -56,7 +56,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Nov 27 2024", "06:59:00");
+    RtcDateTime compiled = RtcDateTime("Nov 27 2024", "06:58:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
