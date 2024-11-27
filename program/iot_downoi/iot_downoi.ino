@@ -42,6 +42,7 @@ float lux;
 double lamaHidup;
 int lamaHidupDetik;
 int previousMillis = 0;
+bool lampuHidup;
 void setup()
 {
     Serial.begin(9600);                                     
@@ -93,6 +94,7 @@ void loop()
     lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan);
     lamaHidupDetik = lamaHidup * 3600;
     Serial.println("lampu Hidup");
+    lampuHidup = true;
   }
 
   if(waktuBerjalan >= lamaHidupDetik){
@@ -100,7 +102,8 @@ void loop()
     digitalWrite(solenoid, LOW); // untuk memastikan solenoid mati
     Serial.println("lampu mati");
     previousMillis = millis() / 1000;
-  }else{
+    lampuHidup = false;
+  }else if (lampuHidup == true){
     runSolenoid(CO2);
   }
 
