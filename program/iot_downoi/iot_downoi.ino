@@ -51,7 +51,7 @@ void setup()
     lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE);
     mySerial.begin(BAUDRATE);                               
     myMHZ19.begin(mySerial);                                // *Serial(Stream) reference must be passed to library begin().
-    myMHZ19.autoCalibration(false);                              // Turn auto calibration ON (OFF autoCalibration(false))
+    myMHZ19.autoCalibration();                              // Turn auto calibration ON (OFF autoCalibration(false))
     delay(1000);
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
