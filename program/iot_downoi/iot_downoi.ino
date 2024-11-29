@@ -42,7 +42,7 @@ float lux;
 double lamaHidup;
 int lamaHidupDetik;
 int previousMillis = 0;
-bool lampuHidup;
+bool lampuHidup = true;
 void setup()
 {
     Serial.begin(9600);                                     
@@ -57,7 +57,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Nov 27 2024", "06:58:00");
+    RtcDateTime compiled = RtcDateTime("Nov 29 2024", "06:58:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
@@ -90,12 +90,13 @@ void loop()
   if(jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10){ // <= 10 detik agar tidak masuk ke badan if ini selama semenit 
     digitalWrite(lampu, HIGH);
     delay(1000);
-    lux = getLux();
+    lux = getLux(); // untuk parameter penghitungan lama hidup lampu
     lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan);
     lamaHidupDetik = lamaHidup * 3600;
     Serial.println("lampu Hidup");
     lampuHidup = true;
   }
+
 
   if(waktuBerjalan >= lamaHidupDetik){
     digitalWrite(lampu, LOW);
@@ -107,6 +108,7 @@ void loop()
     runSolenoid(CO2);
   }
 
+  lux = getLux(); // menimpa lux if diatas
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
   if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 5){
     postData(CO2, humidity, lux);
