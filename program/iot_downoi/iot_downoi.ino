@@ -40,7 +40,8 @@ double hitungLamaHidupLampu(float lux, int waktuPencahayaan);
 
 float lux;
 double lamaHidup;
-int lamaHidupDetik;
+int waktuLampuHidup;
+int jamLampuMati;
 int previousMillis = 0;
 bool lampuHidup = true;
 void setup()
@@ -57,7 +58,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Nov 29 2024", "06:58:00");
+    RtcDateTime compiled = RtcDateTime("Nov 30 2024", "06:59:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
@@ -85,45 +86,42 @@ void loop()
   runMistMaker(humidity);
 
   int CO2 = getCO2();
-  
-  int waktuBerjalan = millis()/1000 - previousMillis;
-  if(jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10){ // <= 10 detik agar tidak masuk ke badan if ini selama semenit 
-    digitalWrite(lampu, HIGH);
-    delay(1000);
-    lux = getLux(); // untuk parameter penghitungan lama hidup lampu
-    lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan);
-    lamaHidupDetik = lamaHidup * 3600;
-    Serial.println("lampu Hidup");
-    lampuHidup = true;
+  if (jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10) {
+      waktuLampuHidup = millis(); // Catat waktu awal lampu hidup
+      digitalWrite(lampu, HIGH);
+      delay(1000);
+      lux = getLux();
+      lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan); // ini dalam bentuk jam
+      Serial.println("Lampu hidup");
+      jamLampuMati = 7 + lamaHidup;
+      lampuHidup = true;
   }
 
-
-  if(waktuBerjalan >= lamaHidupDetik){
+  int waktuBerjalan = (millis() - waktuLampuHidup) / 1000;
+  if(jamSekarang >= jamLampuMati){
     digitalWrite(lampu, LOW);
     digitalWrite(solenoid, LOW); // untuk memastikan solenoid mati
     Serial.println("lampu mati");
-    previousMillis = millis() / 1000;
     lampuHidup = false;
   }else if (lampuHidup == true){
     runSolenoid(CO2);
   }
 
-  lux = getLux(); // menimpa lux if diatas
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
   if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 5){
     postData(CO2, humidity, lux);
   }else{
     Serial.println("belum waktunya post");
   }
-  postRealTime(CO2, humidity, lux, lamaHidup, waktuBerjalan);
+  postRealTime(CO2, humidity, lamaHidup, waktuBerjalan);
   Serial.print("waktu berjalan : ");
-  Serial.println(waktuBerjalan);
+  Serial.println(waktuBerjalan);  
+  Serial.print("Jam Lampu Mati : ");
+  Serial.println(jamLampuMati);
   Serial.print("previuous millis : ");
   Serial.println(previousMillis);
   Serial.print("lama jam : ");
   Serial.println(lamaHidup);
-  Serial.print("lama detik : ");
-  Serial.println(lamaHidupDetik);
   Serial.println();
   Serial.println("=====================================");
   delay(1000);
@@ -154,7 +152,7 @@ void postData(int co2, int humidity, float lux){
   delay(1000);
 }
 
-void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuBerjalan){
+void postRealTime(int co2, int humidity, int lamaHidup, int waktuLampuHidup){
   String url = apiURL+"api/realtime";
   HTTPClient http;
   JsonDocument doc;
@@ -164,9 +162,9 @@ void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuBerj
   RtcDateTime now = Rtc.GetDateTime();
   doc["co2"] = co2;
   doc["humidity"] = humidity;
-  doc["lux"] = lux;
+  doc["lux"] = getLux();
   doc["lama_hidup"] = lamaHidup;
-  doc["waktu_berjalan"] = waktuBerjalan;
+  doc["waktu_berjalan"] = waktuLampuHidup;
   doc["waktu"] = String(now.Year()) +"-"+ String(now.Month()) +"-"+ 
                  String(now.Day()) +" "+ String(now.Hour()) +":"+ 
                  String(now.Minute()) +":"+ String(now.Second());
@@ -265,3 +263,5 @@ bool findInArray(int array[], int size, int target) {
     }
     return false; // Elemen tidak ditemukan
 }
+
+
