@@ -58,7 +58,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Nov 30 2024", "06:59:00");
+    RtcDateTime compiled = RtcDateTime("Dec 8 2024", "06:59:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
@@ -87,14 +87,14 @@ void loop()
 
   int CO2 = getCO2();
   if (jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10) {
-      waktuLampuHidup = millis(); // Catat waktu awal lampu hidup
-      digitalWrite(lampu, HIGH);
-      delay(1000);
-      lux = getLux();
-      lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan); // ini dalam bentuk jam
-      Serial.println("Lampu hidup");
-      jamLampuMati = 7 + lamaHidup;
-      lampuHidup = true;
+    waktuLampuHidup = millis(); // Catat waktu awal lampu hidup
+    digitalWrite(lampu, HIGH);
+    delay(1000);
+    lux = getLux();
+    lamaHidup = hitungLamaHidupLampu(lux, waktuPencahayaan); // ini dalam bentuk jam
+    Serial.println("Lampu hidup");
+    jamLampuMati = 7 + lamaHidup;
+    lampuHidup = true;
   }
 
   int waktuBerjalan = (millis() - waktuLampuHidup) / 1000;
@@ -108,12 +108,13 @@ void loop()
   }
 
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
+  lux = getLux();
   if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 5){
     postData(CO2, humidity, lux);
   }else{
     Serial.println("belum waktunya post");
   }
-  postRealTime(CO2, humidity, lamaHidup, waktuBerjalan);
+  postRealTime(CO2, humidity, lux, lamaHidup, waktuBerjalan);
   Serial.print("waktu berjalan : ");
   Serial.println(waktuBerjalan);  
   Serial.print("Jam Lampu Mati : ");
@@ -152,7 +153,7 @@ void postData(int co2, int humidity, float lux){
   delay(1000);
 }
 
-void postRealTime(int co2, int humidity, int lamaHidup, int waktuLampuHidup){
+void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuLampuHidup){
   String url = apiURL+"api/realtime";
   HTTPClient http;
   JsonDocument doc;
@@ -162,8 +163,8 @@ void postRealTime(int co2, int humidity, int lamaHidup, int waktuLampuHidup){
   RtcDateTime now = Rtc.GetDateTime();
   doc["co2"] = co2;
   doc["humidity"] = humidity;
-  doc["lux"] = getLux();
   doc["lama_hidup"] = lamaHidup;
+  doc["lux"] = lux;
   doc["waktu_berjalan"] = waktuLampuHidup;
   doc["waktu"] = String(now.Year()) +"-"+ String(now.Month()) +"-"+ 
                  String(now.Day()) +" "+ String(now.Hour()) +":"+ 
@@ -251,7 +252,7 @@ double hitungLamaHidupLampu(float lux, int waktuPencahayaan){
   int maxLux = 15000; // artinya 100 persen = 15000
   int persentase = (100.0/maxLux) * lux; // 0.01 * lux
   int persentaseKekurangan = 100 - persentase;
-  double lamaHidup = waktuPencahayaan + (waktuPencahayaan/100.0) * persentaseKekurangan;
+  double lamaHidup = waktuPencahayaan + abs((waktuPencahayaan/100.0) * persentaseKekurangan);
   return lamaHidup;
 }
 
