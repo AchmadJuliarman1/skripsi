@@ -72,7 +72,7 @@ void setup()
 
 void loop()
 {
-  int waktuPencahayaan = 8;
+  int waktuPencahayaan = 12;
   RtcDateTime now = Rtc.GetDateTime();
   int jamSekarang = now.Hour();
   int menitSekarang = now.Minute();
@@ -108,7 +108,6 @@ void loop()
   }
 
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
-  lux = getLux();
   if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 5){
     postData(CO2, humidity, lux);
   }else{
