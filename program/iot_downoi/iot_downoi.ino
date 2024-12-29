@@ -58,7 +58,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Dec 8 2024", "06:59:00");
+    RtcDateTime compiled = RtcDateTime("Dec 30 2024", "06:58:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
@@ -103,16 +103,22 @@ void loop()
     digitalWrite(solenoid, LOW); // untuk memastikan solenoid mati
     Serial.println("lampu mati");
     lampuHidup = false;
-  }else if (lampuHidup == true){
+  }else{
+    digitalWrite(lampu, HIGH);
+    lampuHidup = true;
+  }
+
+  if(lampuHidup == true){
     runSolenoid(CO2);
   }
 
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
-  if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 5){
+  if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 8){
     postData(CO2, humidity, lux);
   }else{
     Serial.println("belum waktunya post");
   }
+  lux = getLux();
   postRealTime(CO2, humidity, lux, lamaHidup, waktuBerjalan);
   Serial.print("waktu berjalan : ");
   Serial.println(waktuBerjalan);  
@@ -263,5 +269,3 @@ bool findInArray(int array[], int size, int target) {
     }
     return false; // Elemen tidak ditemukan
 }
-
-
