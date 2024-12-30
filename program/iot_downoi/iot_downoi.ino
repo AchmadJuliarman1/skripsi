@@ -36,6 +36,7 @@ void runLight(float lux, int waktuPencahayaan);
 int getCO2();
 int getHum();
 float getLux();
+int prevCO2;
 double hitungLamaHidupLampu(float lux, int waktuPencahayaan);
 
 float lux;
@@ -58,7 +59,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Dec 30 2024", "06:58:00");
+    RtcDateTime compiled = RtcDateTime("Dec 31 2024", "06:59:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
@@ -86,6 +87,12 @@ void loop()
   runMistMaker(humidity);
 
   int CO2 = getCO2();
+  if(CO2 != 0){
+    prevCO2 = CO2; 
+  }else{
+    CO2 = prevCO2;
+  }
+  
   if (jamSekarang == 7 && menitSekarang < 1 && detikSekarang <= 10) {
     waktuLampuHidup = millis(); // Catat waktu awal lampu hidup
     digitalWrite(lampu, HIGH);
@@ -103,9 +110,6 @@ void loop()
     digitalWrite(solenoid, LOW); // untuk memastikan solenoid mati
     Serial.println("lampu mati");
     lampuHidup = false;
-  }else{
-    digitalWrite(lampu, HIGH);
-    lampuHidup = true;
   }
 
   if(lampuHidup == true){
