@@ -17,57 +17,19 @@
     <node id="n0">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="116.0" width="198.625" x="605.625" y="362.375"/>
+          <y:Geometry height="143.34375" width="239.5625" x="585.15625" y="546.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="21.1513671875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="126.1650390625" x="36.22998046875" xml:space="preserve" y="47.42431640625">Analasis Parameter<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="55.4541015625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="199.330078125" x="20.1162109375" xml:space="preserve" y="43.94482421875">Analisis Kebutuhan Sistem
+- Analisis parameter
+- Analisis kebutuhan monitoring<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
         </y:GenericNode>
       </data>
     </node>
     <node id="n1">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="143.34375" width="239.5625" x="585.15625" y="553.0"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="72.60546875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="232.0400390625" x="3.76123046875" xml:space="preserve" y="35.369140625">Analisis Sistem
-- Analisis Kebutuhan non Fungsional
-- Analisis Kebutuhan Fungsional
-- Analisis Arsitektur Sistem<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n2">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="116.0" width="200.5" x="603.75" y="770.96875"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="106.908203125" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="152.6474609375" x="23.92626953125" xml:space="preserve" y="4.5458984375">Analisis &amp; Perancangan
-- ERD
-- Wiring diagram
-- Flow Chart
-- Perancangan tampilan
-aplikasi monitoring	<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n3">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="116.0" width="200.5" x="603.75" y="961.59375"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="55.4541015625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.2060546875" x="23.14697265625" xml:space="preserve" y="30.27294921875">Pembangunan sistem
-- Pembangunan alat
-- Pembangunan aplikasi<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n4">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="116.0" width="200.5" x="603.75" y="1152.21875"/>
+          <y:Geometry height="116.0" width="200.5" x="604.6875" y="1040.03125"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="38.302734375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="202.4541015625" x="-0.97705078125" xml:space="preserve" y="38.8486328125">Observasi 
@@ -75,17 +37,41 @@ aplikasi monitoring	<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:Lab
         </y:GenericNode>
       </data>
     </node>
-    <node id="n5">
+    <node id="n2">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="116.0" width="200.5" x="603.75" y="1342.84375"/>
+          <y:Geometry height="116.0" width="200.5" x="604.6875" y="1230.65625"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="21.1513671875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="90.3857421875" x="55.05712890625" xml:space="preserve" y="47.42431640625">Pemeliharaan<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
         </y:GenericNode>
       </data>
     </node>
-    <edge id="e0" source="n0" target="n1">
+    <node id="n3">
+      <data key="d6">
+        <y:GenericNode configuration="com.yworks.flowchart.process">
+          <y:Geometry height="116.0" width="200.5" x="439.5" y="810.1875"/>
+          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="55.4541015625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="165.123046875" x="17.6884765625" xml:space="preserve" y="30.27294921875">Pembangunan perangkat 
+keras
+-metode prototyping<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+        </y:GenericNode>
+      </data>
+    </node>
+    <node id="n4">
+      <data key="d6">
+        <y:GenericNode configuration="com.yworks.flowchart.process">
+          <y:Geometry height="116.0" width="200.5" x="775.5" y="810.1875"/>
+          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="14" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="55.4541015625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="166.6748046875" x="16.91259765625" xml:space="preserve" y="30.27294921875">Pembangunan Perangkat 
+lunak
+- metode waterfall<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+        </y:GenericNode>
+      </data>
+    </node>
+    <edge id="e0" source="n1" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -95,7 +81,7 @@ aplikasi monitoring	<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:Lab
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e1" source="n1" target="n2">
+    <edge id="e1" source="n4" target="n1">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -105,7 +91,7 @@ aplikasi monitoring	<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:Lab
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e2" source="n2" target="n3">
+    <edge id="e2" source="n3" target="n1">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -115,7 +101,7 @@ aplikasi monitoring	<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:Lab
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e3" source="n3" target="n4">
+    <edge id="e3" source="n0" target="n4">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -125,7 +111,7 @@ aplikasi monitoring	<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:Lab
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e4" source="n4" target="n5">
+    <edge id="e4" source="n0" target="n3">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
