@@ -259,7 +259,7 @@ double hitungLamaHidupLampu(float lux, int waktuPencahayaan){
   int maxLux = 15000; // artinya 100 persen = 15000
   int persentase = (100.0/maxLux) * lux; // 0.01 * lux
   int persentaseKekurangan = 100 - persentase;
-  double lamaHidup = waktuPencahayaan + abs((waktuPencahayaan/100.0) * persentaseKekurangan);
+  double lamaHidup = waktuPencahayaan + (waktuPencahayaan/100.0) * persentaseKekurangan;
   return lamaHidup;
 }
 
