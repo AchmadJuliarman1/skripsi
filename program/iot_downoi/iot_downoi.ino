@@ -59,7 +59,7 @@ void setup()
 	  sht3xd.begin(0x44); // I2C address: 0x44 or 0x45
     delay(1000);
     Rtc.Begin();
-    RtcDateTime compiled = RtcDateTime("Dec 31 2024", "06:58:00");
+    RtcDateTime compiled = RtcDateTime("Feb 23 2025", "06:58:00");
     Rtc.SetDateTime(compiled);
 
     pinMode(mistMaker, OUTPUT);
@@ -84,6 +84,8 @@ void loop()
   Serial.println(detikSekarang);
 
   float humidity = getHum(sht3xd.readTempAndHumidity(SHT3XD_REPEATABILITY_HIGH, SHT3XD_MODE_POLLING, 50));
+  int suhu = getTemp(sht3xd.readTempAndHumidity(SHT3XD_REPEATABILITY_HIGH, SHT3XD_MODE_POLLING, 50));
+
   runMistMaker(humidity);
 
   int CO2 = getCO2();
@@ -116,12 +118,12 @@ void loop()
 
   int jamPostData[8] = {7,10,13,16,19,22,1,4}; // kirim data per 3 jam sekali
   if(findInArray(jamPostData, 8, jamSekarang) && menitSekarang < 1 && detikSekarang < 8){
-    postData(CO2, humidity, lux);
+    postData(CO2, humidity, lux, suhu);
   }else{
     Serial.println("belum waktunya post");
   }
   lux = getLux();
-  postRealTime(CO2, humidity, lux, lamaHidup, waktuBerjalan);
+  postRealTime(CO2, humidity, lux, suhu, lamaHidup, waktuBerjalan);
   Serial.print("waktu berjalan : ");
   Serial.println(waktuBerjalan);  
   Serial.print("Jam Lampu Mati : ");
@@ -132,10 +134,10 @@ void loop()
   Serial.println(lamaHidup);
   Serial.println();
   Serial.println("=====================================");
-  delay(1000);
+  delay(500);
 }
 
-void postData(int co2, int humidity, float lux){
+void postData(int co2, int humidity, float lux, int suhu){
   String url = apiURL+"api/post";
   HTTPClient http;
   JsonDocument doc;
@@ -146,6 +148,7 @@ void postData(int co2, int humidity, float lux){
   doc["co2"] = co2;
   doc["humidity"] = humidity;
   doc["lux"] = lux;
+  doc["suhu"] = suhu;
   doc["waktu"] = String(now.Year()) +"-"+ String(now.Month()) +"-"+ 
                  String(now.Day()) +" "+ String(now.Hour()) +":"+ 
                  String(now.Minute()) +":"+ String(now.Second());
@@ -157,10 +160,10 @@ void postData(int co2, int humidity, float lux){
   response = http.getString();
   Serial.println(response);
   http.end();
-  delay(1000);
+  delay(500);
 }
 
-void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuLampuHidup){
+void postRealTime(int co2, int humidity, float lux, int suhu, int lamaHidup, int waktuLampuHidup){
   String url = apiURL+"api/realtime";
   HTTPClient http;
   JsonDocument doc;
@@ -172,6 +175,7 @@ void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuLamp
   doc["humidity"] = humidity;
   doc["lama_hidup"] = lamaHidup;
   doc["lux"] = lux;
+  doc["suhu"] = suhu;
   doc["waktu_berjalan"] = waktuLampuHidup;
   doc["waktu"] = String(now.Year()) +"-"+ String(now.Month()) +"-"+ 
                  String(now.Day()) +" "+ String(now.Hour()) +":"+ 
@@ -184,7 +188,7 @@ void postRealTime(int co2, int humidity, float lux, int lamaHidup, int waktuLamp
   response = http.getString();
   Serial.println(response);
   http.end();
-  delay(1000);
+  delay(500);
 }
 
 void connectWifi(){
@@ -217,7 +221,14 @@ float getHum(SHT31D result) {
   Serial.print("Humidity : ");
   Serial.println(result.rh);
 	return result.rh;
-  delay(1000);
+  delay(500);
+}
+
+int getTemp(SHT31D result) {
+  Serial.print("Temperature : ");
+  Serial.println(result.t);
+	return result.t;
+  delay(500);
 }
 
 float getLux(){
